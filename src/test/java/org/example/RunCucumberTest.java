@@ -12,7 +12,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.duocuc.steps")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "org.example.steps")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,summary")
 
 public class RunCucumberTest {
