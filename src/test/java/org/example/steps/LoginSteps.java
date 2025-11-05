@@ -14,8 +14,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class LoginSteps {
 
     static WebDriver driver;
-    static WebDriverWait wait;
-    static final int TIMEOUT_SECONDS = 10;
 
     @Before
     public void setup() {
