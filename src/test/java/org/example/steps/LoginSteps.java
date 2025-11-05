@@ -18,9 +18,9 @@ import org.junit.Assert;
 
 public class LoginSteps {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private static final int TIMEOUT_SECONDS = 10;
+    static WebDriver driver;
+    static WebDriverWait wait;
+    static final int TIMEOUT_SECONDS = 10;
 
     @Before
     public void setup() {
@@ -37,8 +37,6 @@ public class LoginSteps {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-
-        wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT_SECONDS));
     }
 
     @After
@@ -49,42 +47,40 @@ public class LoginSteps {
     }
 
     @Given("el navegador esta abierto en la pagina {string}")
-    public void el_navegador_esta_abierto_en_la_pagina(String url) {
+    public void el_navegador_esta_abierto_en_la_pagina(String url) throws InterruptedException {
         driver.get(url);
+        Thread.sleep(3000);
     }
 
     @Given("el usuario realiza clic en {string} para dirigirse a la pagina de login")
-    public void el_usuario_realiza_clic_en_para_dirigirse_a_la_pagina_de_login(String xpath) {
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-        element.click();
+    public void el_usuario_realiza_clic_en_para_dirigirse_a_la_pagina_de_login(String xpath) throws InterruptedException {
+        driver.findElement(By.xpath(xpath)).click();
+        Thread.sleep(1000);
     }
 
     @When("el usuario ingresa en {string} el {string} y en {string} la {string}")
     public void el_usuario_ingresa_en_el_y_en_la(String xpath_username, String username, String xpath_password, String password) {
-        WebElement usernameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath_username)));
-        usernameField.clear();
-        usernameField.sendKeys(username);
-
-        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath_password)));
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        driver.findElement(By.xpath(xpath_username)).click();
+        driver.findElement(By.xpath(xpath_username)).clear();
+        driver.findElement(By.xpath(xpath_username)).sendKeys(username);
+        driver.findElement(By.xpath(xpath_password)).click();
+        driver.findElement(By.xpath(xpath_password)).clear();
+        driver.findElement(By.xpath(xpath_password)).sendKeys(password);
     }
 
     @When("hace click en el boton de login {string}")
-    public void hace_click_en_el_boton_de_login(String xpath) {
-        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-        loginButton.click();
+    public void hace_click_en_el_boton_de_login(String xpath) throws InterruptedException {
+        driver.findElement(By.xpath(xpath)).click();
+        Thread.sleep(5000);
     }
 
     @Then("se deberia mostrar el campo {string} con el mensaje {string}")
-    public void se_deberia_mostrar_el_campo_con_el_mensaje(String xpath, String expectedMessage) {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
-        String actualText = element.getText();
-
-        String assertionMessage = String.format(
-                "El mensaje esperado no se encontró. Esperado: '%s', Actual: '%s'",
-                expectedMessage, actualText
-        );
-        Assert.assertTrue(assertionMessage, actualText.contains(expectedMessage));
+    public void se_deberia_mostrar_el_campo_con_el_mensaje(String xpath, String message) {
+        String text = driver.findElement(By.xpath(xpath)).getText();
+        if (text.contains(message)) {
+            System.out.println("El campo con el mensaje se encuentra");
+        }else  {
+            throw new RuntimeException("El campo con el mensaje no se encuentra");
+        }
     }
 }

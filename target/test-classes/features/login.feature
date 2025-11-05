@@ -16,8 +16,7 @@ Feature: Login de usuario en la aplicacion
     Then se deberia mostrar el campo "//*[contains(text(),'Login Failed')]" con el mensaje "<mensaje>"
 
     Examples:
-
       | usuario | contrasenia | mensaje      |
-      | admin   | 1234        | Login Failed |
-      | admin   | 1234        | Login Failed |
+      | ccont   | 123456      | Login Failed |
+      | bguti   | 123456      | Login Failed |
 
