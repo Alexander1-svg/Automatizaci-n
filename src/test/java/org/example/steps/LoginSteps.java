@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import org.junit.Assert;
-
 public class LoginSteps {
 
     static WebDriver driver;
