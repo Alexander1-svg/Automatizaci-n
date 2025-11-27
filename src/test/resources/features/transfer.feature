@@ -1,14 +1,20 @@
-Feature: Transferencia
+Feature: Validar transferencia
 
   Background:
     Given el navegador esta abierto en la pagina "https://demo.testfire.net/"
     And el usuario realiza clic en "//a[@id='AccountLink']" para dirigirse a la pagina de login
 
-  Scenario: Tranferencia de fondos exitosa
-    Given el usuario inicia sesión con "jsmith" y "Demo1234"
-    When el usuario navega a la página de "Transfer Funds"
-    And el usuario selecciona la cuenta de origen "800002"
-    And el usuario selecciona la cuenta de destino "800003"
-    And el usuario ingresa el monto de "10000"
-    And el usuario confirma la transferencia
-    Then se deberia mostrar un mensaje de transferencia exitosa "was successfully transferred"
+  Scenario Outline: Transferencia
+    Given que puedo acceder a la url "https://demo.testfire.net/"
+    And puedo ingresar a mi aplicacion con mi usuario y mi password <fila_excel>
+    When doy click en el enlace de transferencia de fondos "Transfer Funds"
+    And selecciono la cuenta de origen y destino <fila_excel>
+    And coloco el monto a transferir <fila_excel>
+    And doy click en el boton de transferencia "//input[@id='transfer']"
+    Then aparece el mensaje de transferencia correcta <fila_excel>
+
+    Examples:
+      | fila_excel|
+      | 1        |
+      | 2        |
+      | 5        |
